@@ -48,19 +48,16 @@
 		} 
 		
         // check is empty field of name field and validation Sanitization of name field
-           
-      	if ( empty($_POST['lname']) || !str_replace(' ', '', $_POST['lname']) ) {
-        	$lnameErr="name is required";
+		if ( empty($_POST['lname']) || !str_replace(' ', '', $_POST['lname']) ) {
+			$lnameErr="name is required";
 			$lastName=filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
-      	} elseif ( !preg_match("/^[a-zA-Z-' ]*$/",$lastName) ) {
+		} elseif ( !preg_match("/^[a-zA-Z-' ]*$/",$lastName) ) {
 			$lnameErr=" Only can contain letter";
-       	} elseif ( strlen($_POST['lname'])<2 || strlen($_POST['lname'])>20 ) {
+		} elseif ( strlen($_POST['lname'])<2 || strlen($_POST['lname'])>20 ) {
 			$lnameErr="Enter name between 2 to 20 character";
 		}
 
-       	
-      		// validation and Sanitization of gender field
-
+		// validation and Sanitization of gender field
         if ( !empty($_POST['gnder']) ) {
         	$gender=$_POST['gnder'];
         } 	else {
