@@ -32,37 +32,29 @@
   $submitErr    = '';
 
    
-    		// validation and sanitization of form field
+    	// validation and sanitization of form field
       
       	if ($_POST && isset($_POST['submit'])) {
 		  
-			// validation and sanitization of name
+		// validation and sanitization of name
 
 		if ( empty($_POST['fname']) || !str_replace(' ', '', $_POST['fname']) ) {
 			$nameErr = "name is required";
-		} else {
 			$name=filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
-		}
-		if ( !preg_match("/^[a-zA-Z-' ]*$/",$name) ) {
+		} elseif ( !preg_match("/^[a-zA-Z-' ]*$/",$name) ) {
 		 	$nameErr="Only can contain letter";
+		} elseif ( strlen($_POST['fname'])<2 || strlen($_POST['fname'])>20 ) {
+			$nameErr="Enter name between 2 to 20 character";	
 		} 
-		if ( strlen($_POST['fname'])<2 || strlen($_POST['fname'])>20 ) {
-		 	 $nameErr="Enter name between 2 to 20 character";
-		}
 		
-		
-        	// check is empty field of name field and validation Sanitization of name field
+        // check is empty field of name field and validation Sanitization of name field
            
       	if ( empty($_POST['lname']) || !str_replace(' ', '', $_POST['lname']) ) {
         	$lnameErr="name is required";
-      	} else {
-			$lastName=filter_var($_POST['lname'], FILTER_SANITIZE_STRING);  
-		} 
-		
-		if ( !preg_match("/^[a-zA-Z-' ]*$/",$lastName) ) {
+			$lastName=filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
+      	} elseif ( !preg_match("/^[a-zA-Z-' ]*$/",$lastName) ) {
 			$lnameErr=" Only can contain letter";
-       	} 
-		if ( strlen($_POST['lname'])<2 && strlen($_POST['lname'])>20 ) {
+       	} elseif ( strlen($_POST['lname'])<2 || strlen($_POST['lname'])>20 ) {
 			$lnameErr="Enter name between 2 to 20 character";
 		}
 
@@ -71,7 +63,7 @@
 
         if ( !empty($_POST['gnder']) ) {
         	$gender=$_POST['gnder'];
-        } else {
+        } 	else {
           $genderErr="gender is required";
         }
           
@@ -86,12 +78,12 @@
 				$emailErr="enter valid email address ";
 			}
 		}
-		
 		if ( Strlen( $_POST['email'] ) < 2  &&  Strlen( $_POST['email'] ) > 20 ) {
 			$emailErr="invalid email id";
 		}
         
-        	// validation and Sanitization of Phone field
+        
+		// validation and Sanitization of Phone field
        
         if ( empty($_POST['phone']) ) {
           	$phoneErr="phone is required";
@@ -101,7 +93,6 @@
 				$phoneErr="invalid phone number";
 			}
 		}
-
         if ( Strlen($_POST['phone'] )>7 ) {
           	$phoneErr="not valid phone number";
         } 
@@ -119,7 +110,9 @@
         }
 
         // Validate confirm password
+
         	$confirmPassword=$_POST['cpwd'];
+
         if (empty(trim($confirmPassword))) {
         	$confirmpassErr = "confirm password is required";     
         } else {
@@ -131,9 +124,11 @@
         }
 
         // check the checkbox section
+
         if (empty($_POST['checkbox'])) {
        	 	$markcheckErr="Please Mark the check box";
         }
+
 
         // validation and sanitize address
          
