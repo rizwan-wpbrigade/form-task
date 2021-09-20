@@ -12,11 +12,3 @@ Address [required, text, max-length:50, min-length:10]
 Password [required, password, max-length:20, min-length:6]
 Confirm Password [required, password, max-length:20, min-length:6, matches with ‘Password’]
 Checkbox for ‘I agree to the terms” [this will be unchecked by default, user will be required to mark it as checked]
-
-You will not use any type of HTML/JS validation.
-Any kind of styling is optional.
-PHP will check for data type in the fields, valid any length restrictions, will match password fields and sanitize the input data.
-After submission, users will be told what the error is and how they can fix it in plain language.
-All fields will be validated when the form is submitted and if all validations are clear, they will see an appropriate notice.
-Your PHP code should not use any libraries or copy/pasted code.
-Your code should be properly indented and commented.
