@@ -32,12 +32,12 @@
 
    
     	// validation and sanitization of form field
-      
+
 		if ($_POST && isset($_POST['submit'])) {
 		  
 		// validation and sanitization of name
 			$name=$_POST['fname'];
-		if ( empty($name) || !str_replace(' ', '', $name)) {
+		if ( empty($name) ) {
 			$nameErr = "name is required";
 			$name=filter_var($name, FILTER_SANITIZE_STRING);
 
@@ -50,7 +50,7 @@
 		
 		// check is empty field of name field and validation Sanitization of name field
 			$lastName=$_POST['lname'];
-		if ( empty($lastName) || !str_replace(' ', '', $lastName) ) {
+		if ( empty($lastName)  ) {
 			$lnameErr="name is required";
 			$lastName=filter_var($lastName, FILTER_SANITIZE_STRING);
 
@@ -95,8 +95,8 @@
 		if ( Strlen($_POST['phone'] ) !=7 ) {
           	$phoneErr="not valid phone number";
 		} 
-
-        // validation and Sanitization of password field;
+		
+		// validation and Sanitization of password field;
 		$password=$_POST['password'];
 		if (empty(trim($password))) {
 			$passwordErr="password is required within 6 to 20 character";
@@ -106,7 +106,7 @@
 			$passwordErr="password is required within 6 to 20 character";
 		}
 
-        // Validate confirm password
+		// Validate confirm password
 		$confirmPassword=$_POST['cpwd'];
 		if (empty(trim($confirmPassword))) {
 			$confirmpassErr = "confirm password is required";
@@ -123,7 +123,7 @@
 		}
 
 		// validation and sanitize address 
-		if ( empty( $_POST['address'] ) || !str_replace( ' ', '', $_POST['address'] )) {
+		if ( empty( $_POST['address'] ) ) {
 			$addressErr="address is required";
 		} elseif (strlen($_POST['address'])<5 ||  (strlen($_POST['address'])>50)) {
 			$addressErr="enter valid address";
@@ -146,7 +146,7 @@
 				
 				echo "<h2> $name your form is submitted</h2>";
 			}
-	}
+		}
         
 ?>
 
@@ -155,10 +155,10 @@
 	<span class="error"><p>* required field:</p></span>
 
 	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
-		First name: <input type="text" placeholder="First Name" name="fname" value="<?php echo $name?>">
+		First name: <input type="text" placeholder="First Name" name="fname" value="<?php echo trim($name); ?>">
 		<span class="error">* <?php echo $nameErr;?></span>  
 		<br><br>
-		Last name: <input type="text" placeholder="Last Name" name="lname" value="<?php echo $lastName?>">
+		Last name: <input type="text" placeholder="Last Name" name="lname" value="<?php echo trim($lastName);?>">
 		<span class="error">*<?php echo "$lnameErr"?></span>
 		<br><br>
 		Gender:
@@ -181,7 +181,7 @@
 		Confirm Password:<input type="password" placeholder="Confirm Password" name="cpwd" value="<?php echo $confirmPassword?>">
 		<span class="error">* <?php echo "$confirmpassErr";?></span>
 		<br><br>
-		<input type="checkbox" name="checkbox"/> I agree to the Terms and Conditions.
+		<input type="checkbox" name="checkbox" <?php if (isset($_POST['checkbox'])) echo "checked"; ?>/> I agree to the Terms and Conditions.
 		<span class="error">* <?php echo "$markcheckErr";?></span>
 		<br><br>
 		<input type="submit" name="submit" value="submit">
