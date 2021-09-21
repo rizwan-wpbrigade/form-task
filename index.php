@@ -1,191 +1,299 @@
+<!DOCTYPE HTML> 
 <html>
-  <title>Registration Form</title>
-  <style>
-    .error{
-      color:red;
-    }
-  </style>
-  <body>
-  <?php
-
-
-  // variable declare
-  $name     = "";
-  $lastName = "";
-  $email    = "";
-  $phone    = "";
-  $address  = "";
-  $password = "";
-  $confirmPassword = ""; 
-  $submit   = "";
-
-  $nameErr      = '';
-  $lnameErr     = '';
-  $genderErr    = '';
-  $emailErr     = '';
-  $phoneErr     = '';
-  $addressErr   = '';
-  $passwordErr  = '';
-  $confirmpassErr='';  
-  $markcheckErr = '';
-  $submitErr    = '';
-
-   
-    	// validation and sanitization of form field
-
-		if ($_POST && isset($_POST['submit'])) {
-		  
-		// validation and sanitization of name
-			$name=$_POST['fname'];
-		if ( empty($name) ) {
-			$nameErr = "name is required";
-			$name=filter_var($name, FILTER_SANITIZE_STRING);
-
-		}	elseif ( !preg_match("/^[a-zA-Z-' ]*$/",$name) ) {
-			$nameErr="Only can contain letter";
-
-		}	elseif ( strlen($name)<2 || strlen($name)>20 ) {
-			$nameErr="Enter name between 2 to 20 character";	
-		} 
+<head>
+	<title>Registration Form </title>
 		
-		// check is empty field of name field and validation Sanitization of name field
-			$lastName=$_POST['lname'];
-		if ( empty($lastName)  ) {
-			$lnameErr="name is required";
-			$lastName=filter_var($lastName, FILTER_SANITIZE_STRING);
+	<!-- add internal styling of form -->
+	<style>
+	
+	body { background:#778899; }
 
-		}	elseif ( !preg_match("/^[a-zA-Z-' ]*$/",$lastName) ) {
-			$lnameErr=" Only can contain letter";
+	.error { color:red; }
 
-		}	elseif ( strlen($lastName)<2 || strlen($lastName)>20 ) {
-			$lnameErr="Enter name between 2 to 20 character";
+	.content {	
+		max-width: 550px;
+		height: auto;
+ 		margin: auto;
+  		background: white;
+  		padding: 10px;
 		}
 
-		// validation and Sanitization of gender field
-		if ( !empty($_POST['gnder']) ) {
-			$gender=$_POST['gnder'];
-		}	else {
-			$genderErr="gender is required";
-		}
+		h2 { color:white;}
+
+	</style>
+
+</head>
+<body>
+
+<?php
+
+// define variable 
+$first_name = NULL;
+$last_name = NULL;
+$gender	  = NULL;
+$email    = NULL;
+$phone    = NULL;
+$address  = NULL;
+$password = NULL;
+$confirmPassword = NULL;
+$checkbox = NULL;
+$submit   = NULL;
+
+
+// declare variable false for check error
+$nameErr	= NULL;
+$lnameErr	= NULL;
+$genderErr	= NULL;
+$emailErr	= NULL;
+$phoneErr	= NULL;
+$addressErr	= NULL;
+$passwordErr= NULL;
+$confirmpassErr = NULL;
+$markcheckErr = NULL;
+$submitErr	= NULL;
+$find_error = false;
+
+
+// Apply  validation and sanitization on Registration Form
+
+if ( $_POST && isset($_POST['submit']) ) {
+
+
+	// check validation and sanitize first_name field
+	$first_name = trim($_POST['fname']);
+
+	if ( empty($first_name) ) {
+		 
+		$nameErr = "required";
+		$find_error = true;
+		$first_name = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
+	
+	} elseif ( !preg_match("/^[a-zA-Z-' ]*$/",$first_name) ) {
+
+		$nameErr = "Only can contain letter";
+		$find_error = true;
+
+	// check the max and min length
+
+	} elseif ( 2>=strlen($first_name) || 20<=strlen($first_name) ) {
+
+		$nameErr = "Enter name between 2 to 20 character" ;
+		$find_error = "true";
+	}
+
+
+	// check validation and sanitize last_name field
+	$last_name = trim( $_POST['lname'] );
+
+	if ( empty($last_name) ) {
+		 
+		$lnameErr = "required";
+		$find_error = true;
+		$last_name = filter_var($last_name, FILTER_SANITIZE_STRING) ;
+
+	} elseif ( !preg_match("/^[a-zA-Z-' ]*$/", $last_name ) ) {
+
+		$lnameErr = "Only can contain letter";
+		$find_error = true;
 		
-		// validation and Sanitization of Email field
-		if ( empty($_POST['email']) ) {
-			$emailErr="email is required";
-		} 
-		else {
-			$email=filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-			if ( !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
-				$emailErr="enter valid email address ";
-			}
-		}
-		if ( Strlen( $_POST['email'] ) < 2  &&  Strlen( $_POST['email'] ) > 20 ) {
-			$emailErr="invalid email id";
-		}
-            
-		// validation and Sanitization of Phone field
-		if ( empty($_POST['phone']) ) {
-			$phoneErr="phone is required";
-		}	
-		else {
-			$phone=filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT);
-			if ( !filter_var($phone, FILTER_VALIDATE_INT) ) {
-				$phoneErr="invalid phone number";
-			}
-		}
-		if ( Strlen($_POST['phone'] ) !=7 ) {
-          	$phoneErr="not valid phone number";
-		} 
+	// check the max and min length
+
+	} elseif ( 2>=strlen($last_name) || 20<=strlen($last_name) ) {
+
+		$lnameErr = "Enter name between 2 to 20 character";
+		$find_error = true;
+	}
+
+
+	// check validation and sanitize gender field
+	
+	if (!empty($_POST['gender']) ) {
+
+		$gender = $_POST['gender'];	
+
+	} else {
+	
+		$genderErr = "required";
+		$find_error = true;
+	}
+
+
+	// check validation and sanitize email
+
+	$email = $_POST['email'];
+
+	if ( empty($email) ) {
+
+		$emailErr = "required";
+		$find_error = true;
 		
-		// validation and Sanitization of password field;
-		$password=$_POST['password'];
-		if (empty(trim($password))) {
-			$passwordErr="password is required within 6 to 20 character";
-		}	elseif (strlen($_POST['password'])<6) {
-        	$passwordErr="password is required within 6 to 20 character";
-        }	elseif (strlen($_POST['password'])>20) {
-			$passwordErr="password is required within 6 to 20 character";
-		}
+	} else {
 
-		// Validate confirm password
-		$confirmPassword=$_POST['cpwd'];
-		if (empty(trim($confirmPassword))) {
-			$confirmpassErr = "confirm password is required";
-		} else {
-			$confirmPassword = trim($_POST['cpwd']);
-			if ( empty($password_err) && ($password != $confirmPassword) ) {
-				$confirmpassErr = "Password did not match";
-			}
-		}
+		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-		// check the checkbox section
-		if (empty($_POST['checkbox'])) {
-			$markcheckErr="Please Mark the check box";
+		if ( !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
+			
+			$emailErr = "enter valid email address";
+			$find_error = true;
 		}
+	}
 
-		// validation and sanitize address 
-		if ( empty( $_POST['address'] ) ) {
-			$addressErr="address is required";
-		} elseif (strlen($_POST['address'])<5 ||  (strlen($_POST['address'])>50)) {
-			$addressErr="enter valid address";
-		} else {
-			$address=filter_var($_POST['address'], FILTER_SANITIZE_STRING);
+	// check the max and min length
+	if ( 1>=strlen($email) && 20<=strlen($email) ) {
+		
+		$emailErr = "invalid email id";
+		$find_error = true;
+	}
+
+
+
+	// check validation and sanitize phone field
+	
+	$phone = $_POST['phone'];
+
+	if ( empty($phone) ) {
+		
+		$phoneErr = "required";
+		$find_error = true;
+		$phone = filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT);
+
+	} elseif ( !filter_var($phone, FILTER_VALIDATE_INT) )  {
+		
+		$phoneErr = "invalid phone number";
+		$find_error = true;
+
+	} else {
+		
+		if ( Strlen($phone) !=7 ) {
+			
+			$phoneErr = "invalid phone number";
+			$find_error = true;
 		}
+	}
 
-		// to print form submission status
 
-			if( empty($nameErr)&&
-				empty($lnameErr)&&
-				empty($genderErr)&&
-				empty($emailErr)&&
-				empty($phoneErr)&&
-				empty($addressErr)&&
-				empty($passwordErr)&&
-				empty($confirmpassErr)&&
-				empty($markcheckErr)&&
-				empty($submitErr) ) {
-				
-				echo "<h2> $name your form is submitted</h2>";
-			}
-		}
-        
+	// check validation and sanitize password field
+
+	$password = trim($_POST['password']);
+
+	if ( empty($password) ) {
+		
+		$passwordErr = "password is required within 6 to 20 character";
+		$find_error = true;
+
+	} elseif ( strlen($password)<6 || strlen($password)>20 ) {
+		
+		$passwordErr = "password is required within 6 to 20 character";
+		$find_error = true;
+	}
+
+
+	// check validation and sanitize confirm_password field
+
+	$confirmPassword = trim($_POST['cpwd']);
+
+	if ( empty($confirmPassword) ) {
+		
+		$confirmpassErr = "confirm password is required";
+		$find_error = true;
+
+	} elseif ( empty($find_error) && ($password != $confirmPassword) ) {
+		
+		$confirmpassErr = "Password did not match";
+		$find_error = true;
+	}
+
+	// check validation and sanitize address field
+
+	$address = $_POST['address'];
+
+	if ( empty($address) ) {
+		
+		$addressErr = "address is required";
+		$find_error = true;
+
+	} elseif ( strlen($address)<5 ||  (strlen($address)>50) ) {
+		
+		$addressErr = "enter valid address";
+		$find_error = true;
+
+	} else {
+		
+		$address=filter_var($address, FILTER_SANITIZE_STRING);
+	}
+
+
+
+	// check validation and sanitize check field
+
+	if ( empty($_POST['checkbox']) ) {
+		
+		$markcheckErr = "Please mark the check box";
+		$find_error = true;
+	}
+
+	
+	// to print the form submission status
+
+	if ( $find_error == false) {
+		
+		echo "<h2> $first_name your form is submitted</h2>";
+	}
+}
+
 ?>
 
- 
-	<h3>Registration Form</h2>
-	<span class="error"><p>* required field:</p></span>
 
-	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
-		First name: <input type="text" placeholder="First Name" name="fname" value="<?php echo trim($name); ?>">
-		<span class="error">* <?php echo $nameErr;?></span>  
-		<br><br>
-		Last name: <input type="text" placeholder="Last Name" name="lname" value="<?php echo trim($lastName);?>">
+<div class="content">
+<h3>Registration Form</h3>
+<span class="error"><p>* required field:</p></span> 
+
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
+	
+	
+	First name: <input type="text" placeholder="First Name" name="fname" value="<?php echo trim($first_name); ?>">
+		<span class="error">* <?php echo "$nameErr";?></span>  
+		<br><br><br>
+
+	Last name: <input type="text" placeholder="Last Name" name="lname" value="<?php echo trim($last_name);?>">
 		<span class="error">*<?php echo "$lnameErr"?></span>
-		<br><br>
-		Gender:
-		<input type="radio" name="gnder" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Male
-		<input type="radio" name="gnder" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Female
-		<span class="error">* <?php echo $genderErr;?></span>
-		<br><br>
-		Email:  <input type="text" placeholder="Email" name="email" value="<?php echo $email?>">
-		<span class="error">* <?php echo $emailErr;?></span>
-		<br><br>
-		Phone: <input type="tel" name="phone" placeholder="Number" value="<?php echo $phone?>" >
+		<br><br><br>
+        
+	Gender:
+	    <input type="radio" name="gender" <?php if (isset($gender) && $gender==="male") echo "checked";?> value="male">Male
+	    <input type="radio" name="gender" <?php if (isset($gender) && $gender==="female") echo "checked";?> value="female">Female
+	    <span class="error">* <?php echo "$genderErr";?></span>
+		<br><br><br>
+
+	Email:  <input type="text" placeholder="Email" name="email" value="<?php echo $email?>">
+		<span class="error">* <?php echo "$emailErr";?></span>
+		<br><br><br>
+
+	Phone: <input type="tel" name="phone" placeholder="Number" value="<?php echo $phone?>" >
 		<span class="error">* <?php echo "$phoneErr";?></span>
-		<br><br>
-		Address:<input type="text" placeholder="Address" name="address" value="<?php echo $address?>">
+		<br><br><br>
+
+	Address:<input type="text" placeholder="Address" name="address" value="<?php echo $address?>">
 		<span class="error">* <?php echo "$addressErr";?></span>
-		<br><br>
-		Password:<input type="password" placeholder="Password" name="password" value="<?php echo $password?>">
+		<br><br><br>
+
+	Password:<input type="password" placeholder="Password" name="password" value="<?php echo $password?>">
 		<span class="error">* <?php echo "$passwordErr";?></span>
-		<br><br>
-		Confirm Password:<input type="password" placeholder="Confirm Password" name="cpwd" value="<?php echo $confirmPassword?>">
+		<br><br><br>
+
+	Confirm Password:<input type="password" placeholder="Confirm Password" name="cpwd" value="<?php echo $confirmPassword?>">
 		<span class="error">* <?php echo "$confirmpassErr";?></span>
-		<br><br>
-		<input type="checkbox" name="checkbox" <?php if (isset($_POST['checkbox'])) echo "checked"; ?>/> I agree to the Terms and Conditions.
+		<br><br><br>
+
+	<input type="checkbox" name="checkbox" <?php if (isset($_POST['checkbox'])) echo "checked"; ?>/> I agree to the Terms and Conditions.
 		<span class="error">* <?php echo "$markcheckErr";?></span>
-		<br><br>
-		<input type="submit" name="submit" value="submit">
-		<br><br>
+		<br><br><br>
+
+	<input type="submit" name="submit" value="submit">
+		<br><br><br>
+
 	</form>
+
+</div>
 </body>
 </html>
