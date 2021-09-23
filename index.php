@@ -1,14 +1,18 @@
 <!DOCTYPE HTML> 
 <html>
 <head>
-	<title>Registration Form </title>
+<title>Registration Form </title>
 		
 	<!-- add internal styling of form -->
 	<style>
 	
-	body { background:#778899; }
+	body { 
+		background:#778899; 
+	}
 
-	.error { color:red; }
+	.error { 
+		color:red;
+	}
 
 	.content {	
 		max-width: 550px;
@@ -16,12 +20,13 @@
  		margin: auto;
   		background: white;
   		padding: 10px;
-		}
+	}
 
-		h2 { color:white;}
+	h2 { 
+		color:white;
+	}
 
 	</style>
-
 </head>
 <body>
 
@@ -55,7 +60,6 @@ $find_error = false;
 
 
 // Apply  validation and sanitization on Registration Form
-
 if ( $_POST && isset($_POST['submit']) ) {
 
 
@@ -74,12 +78,12 @@ if ( $_POST && isset($_POST['submit']) ) {
 		$find_error = true;
 
 	// check the max and min length
-
 	} elseif ( 2>=strlen($first_name) || 20<=strlen($first_name) ) {
 
 		$nameErr = "Enter name between 2 to 20 character" ;
 		$find_error = "true";
 	}
+
 
 
 	// check validation and sanitize last_name field
@@ -97,7 +101,6 @@ if ( $_POST && isset($_POST['submit']) ) {
 		$find_error = true;
 		
 	// check the max and min length
-
 	} elseif ( 2>=strlen($last_name) || 20<=strlen($last_name) ) {
 
 		$lnameErr = "Enter name between 2 to 20 character";
@@ -105,8 +108,8 @@ if ( $_POST && isset($_POST['submit']) ) {
 	}
 
 
+
 	// check validation and sanitize gender field
-	
 	if (!empty($_POST['gender']) ) {
 
 		$gender = $_POST['gender'];	
@@ -118,8 +121,8 @@ if ( $_POST && isset($_POST['submit']) ) {
 	}
 
 
-	// check validation and sanitize email
 
+	// check validation and sanitize email
 	$email = $_POST['email'];
 
 	if ( empty($email) ) {
@@ -148,7 +151,6 @@ if ( $_POST && isset($_POST['submit']) ) {
 
 
 	// check validation and sanitize phone field
-	
 	$phone = $_POST['phone'];
 
 	if ( empty($phone) ) {
@@ -172,8 +174,8 @@ if ( $_POST && isset($_POST['submit']) ) {
 	}
 
 
-	// check validation and sanitize password field
 
+	// check validation and sanitize password field
 	$password = trim($_POST['password']);
 
 	if ( empty($password) ) {
@@ -188,8 +190,8 @@ if ( $_POST && isset($_POST['submit']) ) {
 	}
 
 
-	// check validation and sanitize confirm_password field
 
+	// check validation and sanitize confirm_password field
 	$confirmPassword = trim($_POST['cpwd']);
 
 	if ( empty($confirmPassword) ) {
@@ -203,8 +205,9 @@ if ( $_POST && isset($_POST['submit']) ) {
 		$find_error = true;
 	}
 
-	// check validation and sanitize address field
 
+
+	// check validation and sanitize address field
 	$address = $_POST['address'];
 
 	if ( empty($address) ) {
@@ -224,17 +227,17 @@ if ( $_POST && isset($_POST['submit']) ) {
 
 
 
-	// check validation and sanitize check field
 
-	if ( empty($_POST['checkbox']) ) {
+	// check validation and sanitize check field
+	if ( empty( $_POST['checkbox'] ) ) {
 		
 		$markcheckErr = "Please mark the check box";
 		$find_error = true;
 	}
 
 	
-	// to print the form submission status
 
+	// to print the form submission status
 	if ( $find_error == false) {
 		
 		echo "<h2> $first_name your form is submitted</h2>";
@@ -248,7 +251,7 @@ if ( $_POST && isset($_POST['submit']) ) {
 <h3>Registration Form</h3>
 <span class="error"><p>* required field:</p></span> 
 
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
+<form action="" method="post">
 	
 	
 	First name: <input type="text" placeholder="First Name" name="fname" value="<?php echo trim($first_name); ?>">
@@ -265,7 +268,7 @@ if ( $_POST && isset($_POST['submit']) ) {
 	    <span class="error">* <?php echo "$genderErr";?></span>
 		<br><br><br>
 
-	Email:  <input type="text" placeholder="Email" name="email" value="<?php echo $email?>">
+	Email: <input type="text" placeholder="Email" name="email" value="<?php echo $email?>">
 		<span class="error">* <?php echo "$emailErr";?></span>
 		<br><br><br>
 
